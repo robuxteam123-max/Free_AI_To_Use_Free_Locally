@@ -1,0 +1,34 @@
+{
+  "greeting": {
+    "examples": ["hello", "hi", "hey", "hello ai", "good morning", "good evening", "hey there", "hiya", "hi friend", "hello computer", "good afternoon", "howdy"],
+    "replies": ["Hello! I'm a small neural network trained on your computer.", "Hi! Ask what I can do, or type /help."]
+  },
+  "goodbye": {
+    "examples": ["bye", "goodbye", "see you", "see you later", "got to go", "bye bye", "farewell", "good night", "until next time", "i am leaving", "catch you later", "talk later"],
+    "replies": ["Goodbye!", "See you next time!"]
+  },
+  "thanks": {
+    "examples": ["thanks", "thank you", "thank you so much", "many thanks", "i appreciate it", "cheers", "thanks ai", "awesome thank you", "that helps thanks", "thank you friend", "thanks a lot", "great thanks"],
+    "replies": ["You're welcome!", "Glad to help!"]
+  },
+  "about": {
+    "examples": ["who are you", "what are you", "what is your name", "tell me your name", "are you an ai", "are you a neural network", "how do you work", "who made you", "what is this program", "tell me about yourself", "what is your brain", "what can you do"],
+    "replies": ["I'm MyFirstAI. My neural network recognizes kinds of messages, and each kind has saved replies. I was trained locally from examples.", "I'm a tiny learning AI. You can teach me by changing lessons.json and typing /train."]
+  },
+  "python": {
+    "examples": ["python programming", "teach me python", "what is python", "python code", "how to write python", "python loops", "python functions", "i like python", "run a python script", "python variables", "learn python coding", "help with python"],
+    "replies": ["Python is a programming language. Try: print('Hello world!')", "I recognize this as a Python question! My brain isn't yet a code-writing language model."]
+  },
+  "web": {
+    "examples": ["html website", "make a website", "what is html", "write html", "css styling", "javascript website", "build a web page", "web developer", "how to make a site", "design a webpage", "help with html", "learn css"],
+    "replies": ["HTML describes web page content, CSS styles it, and JavaScript makes it interactive.", "I recognize a web-programming topic! I can't generate complete websites yet."]
+  },
+  "math": {
+    "examples": ["math question", "help with math", "what is multiplication", "explain addition", "i want mathematics", "how do fractions work", "learn algebra", "subtract numbers", "solve equations", "practice division", "mathematical problem", "teach me geometry"],
+    "replies": ["Math is about patterns and numbers. This little AI recognizes math questions, but doesn't yet calculate answers.", "Want to build a calculator? That's a fun next programming project."]
+  },
+  "science": {
+    "examples": ["tell me about science", "what is gravity", "how does space work", "explain planets", "what is an atom", "learn physics", "what is biology", "science facts", "tell me about stars", "what is electricity", "how do rockets fly", "what is chemistry"],
+    "replies": ["Science uses observations and experiments to understand the world.", "That's a science topic! My small model recognizes the subject, rather than researching new facts."]
+  }
+}

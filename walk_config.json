@@ -1,0 +1,7 @@
+{
+  "minutes_limit": 30,
+  "max_tasks": 3,
+  "training_epochs": 600,
+  "ollama_model": "qwen2.5-coder:3b",
+  "auto_apply_main_only": true
+}

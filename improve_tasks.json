@@ -1,0 +1,14 @@
+[
+  {
+    "file": "main.py",
+    "goal": "Make the AI browser launcher friendlier: improve the startup instructions and error messages. Keep it short, preserve importing and calling smart_ai.main, use only Python's standard library, and do not change the server port."
+  },
+  {
+    "file": "ai.py",
+    "goal": "Make the original tiny neural network clearer and easier to use for beginners. Keep its existing class and functions, and do not change the format of brain.json or lessons.json."
+  },
+  {
+    "file": "smart_ai.py",
+    "goal": "Improve the clarity of error messages and comments. Preserve the existing HTTP routes and security checks. Do not add dependencies or change the local-only bind address."
+  }
+]

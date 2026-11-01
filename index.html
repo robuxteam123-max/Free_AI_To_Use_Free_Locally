@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MyFirstAI Smart — Local AI programmer</title>
+<style>
+:root{color-scheme:dark;--bg:#0c101a;--panel:#161c2b;--panel2:#1e2739;--line:#303b53;--txt:#eaf0fc;--muted:#a9b8d1;--purple:#8c84ff;--green:#53d4b1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#192343,transparent 50%),var(--bg);font:15px/1.55 system-ui,"Segoe UI",sans-serif;color:var(--txt)}
+.container{max-width:1060px;margin:0 auto;padding:28px 18px 35px}.head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}.logo{font-size:29px;width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:#38336d;border:1px solid #6156bb}
+h1{font-size:25px;margin:0;line-height:1.2}p{margin:3px 0;color:var(--muted)}.pill{border:1px solid var(--line);padding:7px 11px;border-radius:999px;color:var(--muted);font-size:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;overflow:hidden;margin-top:20px}.toolbar{display:flex;gap:8px;padding:12px 16px;align-items:center;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tab{background:transparent;color:var(--muted);border:0;border-radius:9px;padding:9px 16px;cursor:pointer;font-weight:600}.tab.active{background:var(--panel2);color:#fff}
+select,input,textarea{font:inherit;background:#101625;border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:11px 13px;outline:none}select:focus,input:focus,textarea:focus{border-color:var(--purple)}select{max-width:230px}.push{margin-left:auto}
+#chat{height:440px;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:18px}.bubble{max-width:90%;white-space:pre-wrap;overflow-wrap:anywhere;padding:13px 15px;border-radius:13px;border:1px solid var(--line);line-height:1.6}
+.bubble.assistant{background:#20283b;align-self:start}.bubble.user{background:#312d60;align-self:end;border-color:#514c8a}.speaker{font-size:11px;letter-spacing:.08em;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase}
+.controls{display:flex;gap:10px;padding:15px;border-top:1px solid var(--line);align-items:end}.controls textarea{flex:1;min-height:58px;max-height:180px;resize:vertical}
+button{font:inherit;cursor:pointer}.primary{border:0;color:#111129;background:#a59cff;font-weight:750;border-radius:10px;padding:12px 20px}.primary:hover{background:#b6aeff}.primary:disabled{opacity:.5;cursor:wait}.secondary{padding:10px 14px;color:var(--txt);background:#28334b;border:1px solid var(--line);border-radius:9px}
+.tips{display:flex;gap:8px;flex-wrap:wrap;padding:0 15px 13px}.tip{font-size:12px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:6px 10px}.tip:hover{color:white}
+#builder{display:none;padding:24px}.builder-head{font-size:18px;margin:0 0 6px}.formgrid{display:grid;gap:13px;margin-top:18px}label{color:var(--muted);font-size:13px;display:flex;flex-direction:column;gap:6px}textarea{min-height:118px;resize:vertical}.buttonrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+pre{white-space:pre;overflow:auto;background:#0c1322;border:1px solid var(--line);border-radius:11px;padding:16px;max-height:390px;line-height:1.5;font-size:13px;color:#dce9ff}
+.notice{padding:13px 16px;background:#241f38;border:1px solid #514878;border-radius:12px;color:#d5c8ff;margin-top:18px;font-size:13px}.notice.good{background:#122a27;border-color:#275e54;color:#a3f3d6}
+#preview{display:none}.small{font-size:12px;color:var(--muted)}.footer{margin-top:16px;color:var(--muted);font-size:12px}
+@media(max-width:650px){.container{padding:15px 10px}.head{align-items:flex-start}h1{font-size:20px}#chat{height:52vh}.controls{flex-direction:column;align-items:stretch}.push{margin-left:0}#builder{padding:15px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="head"><div class="brand"><span class="logo">🧠</span><div><h1>MyFirstAI <span style="color:#a89fff">Smart</span></h1><p>Your AI coding assistant, running on your PC</p></div></div><div class="pill" id="status">● Checking local model…</div></header>
+<div class="notice" id="setup">Smart Mode uses a free downloaded language model via Ollama. No cloud API key is used. It needs one setup download and is not trained from scratch.</div>
+<main class="card"><nav class="toolbar"><button class="tab active" data-view="chat">💬 Chat</button><button class="tab" data-view="builder">⌨️ Build / Edit Files</button><span class="push"></span><label style="flex-direction:row;align-items:center;gap:8px">Model <select id="model"><option value="qwen2.5-coder:3b">qwen2.5-coder:3b</option><option value="qwen2.5-coder:7b">qwen2.5-coder:7b</option></select></label></nav>
+<section id="chatview"><div id="chat" aria-live="polite"><div class="bubble assistant"><div class="speaker">MyFirstAI</div>Hi! I can explain code, create HTML websites, debug Python, and help you build games. Try asking me something!<br><br>My answers come from a local language model—not the old 18-neuron classifier.</div></div>
+<div class="tips"><button class="tip" data-prompt="Create a complete cool HTML website with CSS">Make a website</button><button class="tip" data-prompt="Teach me Python using py on Windows">Teach Python</button><button class="tip" data-prompt="Make a simple JavaScript browser game">Make a game</button></div>
+<div class="controls"><textarea id="message" placeholder="Ask me to create a program, explain code, fix an error…" aria-label="Message"></textarea><button id="send" class="primary">Send ↗</button></div></section>
+<section id="builder"><h2 class="builder-head">Build an actual file</h2><p>Ask the AI to write or rewrite a file. You preview it first, then choose whether to save it in the <strong>workspace</strong> folder.</p>
+<div class="formgrid"><label>File path (inside workspace)<input id="filename" value="index.html" placeholder="index.html or mygame/app.py" maxlength="180"></label>
+<label>What should the AI create or change?<textarea id="description">Make a beautiful single-file HTML website for my gaming community.</textarea></label></div>
+<div class="buttonrow"><button class="primary" id="generate">✨ Generate code</button><span class="small" id="buildstatus">Nothing is saved until you click Save.</span></div>
+<div id="preview"><h3>Preview: <span id="previewname"></span></h3><p>Review the entire file before saving. Generated code can have mistakes.</p><pre id="code"></pre><div class="buttonrow"><button class="primary" id="save">💾 Save to workspace</button><button class="secondary" id="copy">Copy code</button></div></div></section></main>
+<div class="footer">🔒 Local-only server at 127.0.0.1 · Your AI never runs generated code automatically · The model can make mistakes</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);let history=[],pending=null,busy=false;
+async function api(path,payload){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const j=await r.json();if(!r.ok)throw Error(j.error||`Error ${r.status}`);return j}
+function addBubble(role,text){const b=document.createElement('div');b.className='bubble '+role;const head=document.createElement('div');head.className='speaker';head.textContent=role==='user'?'You':'MyFirstAI';b.appendChild(head);b.appendChild(document.createTextNode(text));$('chat').appendChild(b);$('chat').scrollTop=$('chat').scrollHeight;return b}
+function selectedModel(){return $('model').value}
+async function checkStatus(){try{let x=await (await fetch('/api/status')).json();$('status').textContent=x.online?`● Ollama running (${x.models.length} model${x.models.length===1?'':'s'})`:'● Ollama not connected';$('status').style.color=x.online?'#86ecca':'#ffc184';if(x.online&&x.models.length){for(const m of x.models){if(![...$('model').options].some(o=>o.value===m))$('model').add(new Option(m,m))}if(x.models.includes('qwen2.5-coder:7b'))$('model').value='qwen2.5-coder:7b';else if(x.models.includes('qwen2.5-coder:3b'))$('model').value='qwen2.5-coder:3b';else $('model').value=x.models[0];$('setup').classList.add('good');$('setup').textContent='✅ Local AI ready! You can chat and generate real programming files. No API keys needed.'}else if(x.online){$('setup').textContent='Ollama is running, but no models are downloaded. Run setup_smart.cmd and then refresh this page.'}else{$('setup').textContent='To enable Smart Mode: install Ollama, run setup_smart.cmd to download a model, and refresh this page.'}}catch(e){$('status').textContent='● Server error'}}
+async function send(){if(busy)return;const txt=$('message').value.trim();if(!txt)return;busy=true;$('send').disabled=true;$('message').value='';addBubble('user',txt);const working=addBubble('assistant','Thinking…');let messages=[...history,{role:'user',content:txt}];try{let r=await api('/api/chat',{model:selectedModel(),messages});working.lastChild.textContent=r.reply;history=[...messages,{role:'assistant',content:r.reply}].slice(-16)}catch(e){working.lastChild.textContent='Error: '+e.message}finally{busy=false;$('send').disabled=false}}
+$('send').addEventListener('click',send);$('message').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+document.querySelectorAll('.tip').forEach(x=>x.addEventListener('click',()=>{$('message').value=x.dataset.prompt;$('message').focus()}));
+document.querySelectorAll('.tab').forEach(x=>x.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===x));$('chatview').style.display=x.dataset.view==='chat'?'block':'none';$('builder').style.display=x.dataset.view==='builder'?'block':'none'}));
+$('generate').addEventListener('click',async()=>{if(busy)return;let fn=$('filename').value.trim(),desc=$('description').value.trim();if(!fn||!desc)return alert('Enter the filename and request.');busy=true;$('generate').disabled=true;$('preview').style.display='none';$('buildstatus').textContent='Generating code…';try{pending=await api('/api/generate-file',{model:selectedModel(),filename:fn,description:desc});$('previewname').textContent=pending.filename;$('code').textContent=pending.content;$('preview').style.display='block';$('buildstatus').textContent='Preview ready. Nothing has been saved.'}catch(e){$('buildstatus').textContent='Error: '+e.message}finally{busy=false;$('generate').disabled=false}});
+$('save').addEventListener('click',async()=>{if(!pending)return;const action=pending.existing?'OVERWRITE the existing':'CREATE a new';if(!confirm(`${action} file: workspace/${pending.filename}?\nOnly save code you trust.`))return;$('save').disabled=true;try{await api('/api/save-file',{filename:pending.filename,content:pending.content});$('buildstatus').textContent='✅ Saved workspace/'+pending.filename;pending.existing=true}catch(e){$('buildstatus').textContent='Save failed: '+e.message}finally{$('save').disabled=false}});
+$('copy').addEventListener('click',async()=>{if(pending){try{await navigator.clipboard.writeText(pending.content);$('buildstatus').textContent='Code copied!'}catch(e){$('buildstatus').textContent='Copy failed; select code manually.'}}});
+checkStatus();
+</script>
+</body>
+</html>
